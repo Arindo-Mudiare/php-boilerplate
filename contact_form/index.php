@@ -17,7 +17,27 @@ if(filter_has_var(INPUT_POST, 'submit')) {
       // failed
     } else {
       // Passed
-      echo 'PASSED';
+     $toEmail = 'arindomudiare@gmail.com';
+     $subject = 'Contact request from '.$name;
+     $body = '<h2>Contact Request</h2>
+                 <h4>Name</h4><p>'.$name.'</p>
+                 <h4>Email</h4><p>'.$email.'</p>
+                 <h4>Message</h4><p>'.$message.'</p>'
+                 ;
+      //  email Headers
+      $headers = "MiME-Version: 1.0" ."\r\n";
+      $headers .="Content-Type:text/html;charset=UTF-8" ."
+         \r\n";          
+        //  Additional Headers
+        $headers .= "From: " .$name. "<".$email.">". "\r\n";
+
+        if(mail($toEmail,$subject,$body,$headers)){
+          $msg = 'Your email was sent successfully!!';
+          $msgClass = 'alert-success';
+        }else {
+          $msg = 'Your email was not sent';
+          $msgClass = 'alert-danger';
+        }
     }
   } else {
     // Failed
@@ -56,7 +76,7 @@ if(filter_has_var(INPUT_POST, 'submit')) {
       </div>
       <div class="form-group">
         <label>Message</label>
-        <textarea name="message"  class="form-control" value="<?php echo isset($_POST['message']) ? $message : ''; ?>"></textarea>
+        <textarea name="message"  class="form-control"><?php echo isset($_POST['message']) ? $message : ''; ?></textarea>
       </div>
       <button type="submit" name="submit" class="btn btn-primary">Submit</button>
     </form>
